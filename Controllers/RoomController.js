@@ -235,3 +235,25 @@ export const winners = async(req,res)=>{
     res.status(500).json(error)
   }
 } 
+
+export const getMemberCount=async(req,res)=>{
+  try {
+    const {matchId}=req.body
+    const matchData=await RoomModel.findById(matchId)
+    const count=matchData.members.length
+    res.status(200).json(count)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+export const leaveMatch =async(req,res)=>{
+ 
+    try {
+        const {matchId,userId}=req.body
+        await RoomModel.findByIdAndUpdate(matchId,{$pull:{members:userId}})
+        res.status(200).json("User left successfully")
+    } catch (error) {
+      res.status(500).json(error)
+    }
+}
