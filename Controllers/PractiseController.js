@@ -36,6 +36,7 @@ export const joinmatch=async(req,res)=>{
       res.status(200).json(error)
    }
 }
+
 //start a match
 export const startmatch=async(req,res)=>{
 try {
@@ -58,6 +59,7 @@ try {
     res.status(500).json(error)
 }
 }
+
 // get tickets
 export const getTickets=async(req,res)=>{
  
@@ -84,6 +86,7 @@ try {
     
 }
 }
+
 //claim winner spots
 export const claim=async(req,res)=>{
    try {
@@ -156,3 +159,4 @@ export const allMatch = async(req,res)=>{
     res.status(500).json(error)
   }
 }
+

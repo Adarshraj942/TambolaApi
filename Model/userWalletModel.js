@@ -8,7 +8,7 @@ const userWalletSchema = mongoose.Schema(
       },
       defaultAmount:{
         type:Number,
-        default:10
+        default:100
       },
       userAddedAmount:{
         type:Number,

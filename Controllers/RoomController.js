@@ -24,7 +24,7 @@ try {
         res.status(200).json({match}) 
 } catch (error) {
     res.status(500).json(error)
-    
+      
 }
     
 
@@ -256,4 +256,4 @@ export const leaveMatch =async(req,res)=>{
     } catch (error) {
       res.status(500).json(error)
     }
-}
+} 
