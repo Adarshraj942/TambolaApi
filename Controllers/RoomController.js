@@ -3,10 +3,12 @@ import Tambola from "tambola-generator";
 const tambola =Tambola.default
 import roomWalletModel from "../Model/roomWalletModel.js";
 import userWalletModel from "../Model/userWalletModel.js";
+import { AllOtherGames, RoomOfFive, RoomOfLessthanFive, RoomOfTen } from "../Helpers/winningFormulas.js";
 
 //create practice match
 export const creatematch=async(req,res)=>{
 try {
+
     const {createrId,type,fee}=req.body
     let newMatch=RoomModel({createrId:createrId})
           newMatch.members.push(createrId)
@@ -17,7 +19,6 @@ try {
         const match=await newMatch.save()
         const wallet=roomWalletModel({
           roomId:match._id
-          
         })
         await wallet.save()
         console.log("wallet created");
@@ -42,9 +43,7 @@ export const joinmatch=async(req,res)=>{
       const match =await RoomModel.findByIdAndUpdate(matchId,{ $addToSet:{members:userId}},{new:true})
       res.status(200).json({match})
     }
-
- 
-    
+     
    } catch (error) {
       res.status(200).json(error)
    }
@@ -121,13 +120,27 @@ export const claim=async(req,res)=>{
     const {claimType,userId,matchId}=req.body
     const matchData=await RoomModel.findById(matchId)
     const matchWallet =await roomWalletModel.findOne({roomId:matchId})
+    let Distribution={}
+    if(matchData.type<5){
+      Distribution=RoomOfLessthanFive
+    }else if(matchData.type==5){
+      Distribution=RoomOfFive
+    }
+    else if(matchData.type==10){
+      Distribution=RoomOfTen
+    }
+    else{
+      Distribution=AllOtherGames
+    }
+    console.log(Distribution)
     let total =matchData.type*matchData.fee
-    let TambolaWin=total*(60/100)
-    let cornerWin=total*(10/100)
-    let firstRowWin=total*(10/100)
-    let secondRowWin=total*(10/100)
-    let thirdRowWin=total*(10/100)
-    if(matchData.members.indexOf(userId)!==-1  ){
+    let TambolaWin=total*(Distribution.Tambola/100)
+    let cornerWin=total*(Distribution.FirstFive/100)
+    let firstRowWin=total*(Distribution.FirstRow/100)
+    let secondRowWin=total*(Distribution.SecondRow/100)
+    let thirdRowWin=total*(Distribution.ThirdRow/100)
+
+    if(matchData.members.indexOf(userId)!==-1 ){
        if(claimType==="firstRow" && !matchData.firstRow){
            const data=await RoomModel.findByIdAndUpdate(matchId,{firstRow:userId},{new:true})
                
