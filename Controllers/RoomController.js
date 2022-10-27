@@ -58,7 +58,7 @@ try {
     const match =await RoomModel.findById(matchId)
     
 
-      if(match.members.length == match.type){
+      if(match.members.length == match.type && match.members.length ==match.ticketBuyerCount){
         if(match.draw.length>0){
           res.status(400).json("Game already started")
         }else{
@@ -96,6 +96,7 @@ try {
             await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{defaultAmount:-matchData.fee}},{new:true})
             const matchWallet=await roomWalletModel.findOne({roomId:matchId})
             await roomWalletModel.findByIdAndUpdate(matchWallet._id,{$inc:{walletAmount:matchData.fee}},{new:true})
+            await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
             res.status(200).json({x})
           }else{
             res.status(400).json("Insufficent Wallet amount")
@@ -270,3 +271,4 @@ export const leaveMatch =async(req,res)=>{
       res.status(500).json(error)
     }
 } 
+

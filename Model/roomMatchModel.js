@@ -38,7 +38,10 @@ const RoomMatchSchema = mongoose.Schema(
       createrId:{
         type:String
       },
-      
+      ticketBuyerCount:{
+        type:Number,
+        default:0
+      }
       
     },
     
