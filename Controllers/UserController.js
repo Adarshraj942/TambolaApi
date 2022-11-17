@@ -41,7 +41,7 @@ export const getUserWallet=async(req,res)=>{
 const {userId}=req.body
     try {
         const wallet=await userWalletModel.findOne({ownerId:userId})
-        let totalUSable=wallet.winningAmount+wallet.userAddedAmount
+        let totalUSable=wallet.winningAmount+wallet.userAddedAmount+wallet.defaultAmount
         const data= await userWalletModel.findOneAndUpdate ({ownerId:userId},{$set:{totalUsableAmount:totalUSable}},{new:true})
         res.status(200).json(data)
     } catch (error) {

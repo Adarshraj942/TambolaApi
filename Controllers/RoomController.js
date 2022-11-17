@@ -91,9 +91,9 @@ try {
       
           const userWallet=await userWalletModel.findOne({ownerId:userId})
           console.log("hello",userWallet);
-          if(userWallet.defaultAmount>=matchData.fee){
+          if(userWallet.totalUsableAmount>=matchData.fee){
             const x  = tambola.generateTickets(ticketCount) //This generates 100 tambola tickets
-            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{defaultAmount:-matchData.fee}},{new:true})
+            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{totalUsableAmount:-matchData.fee}},{new:true})
             const matchWallet=await roomWalletModel.findOne({roomId:matchId})
             await roomWalletModel.findByIdAndUpdate(matchWallet._id,{$inc:{walletAmount:matchData.fee}},{new:true})
             await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
@@ -248,7 +248,7 @@ export const winners = async(req,res)=>{
   } catch (error) {
     res.status(500).json(error)
   }
-} 
+}     
 
 export const getMemberCount=async(req,res)=>{
   try {

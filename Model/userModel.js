@@ -25,6 +25,7 @@ const UserSchema = mongoose.Schema(
     },
     mobile: {
       type: Number,
+      unique:true
     },
     wallet: {
       type: String,
