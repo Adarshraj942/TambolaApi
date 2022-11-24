@@ -61,6 +61,9 @@ const UserSchema = mongoose.Schema(
     promoCode:{
       type:String,
     },
+    guestUser:{
+      type:String
+    }
     
   },
   { timestamps: true }

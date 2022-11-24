@@ -266,6 +266,7 @@ export const leaveMatch =async(req,res)=>{
     try {
         const {matchId,userId}=req.body
         await RoomModel.findByIdAndUpdate(matchId,{$pull:{members:userId}})
+        await RoomModel.findByIdAndUpdate(matchId,{$inc:{ ticketBuyerCount:-1}},{new:true})
         res.status(200).json("User left successfully")
     } catch (error) {
       res.status(500).json(error)

@@ -10,6 +10,7 @@ import PracticeMatch from "./Routes/PractiseMatch.js"
 import RoomMatch from "./Routes/RoomMatch.js"
 import GuestUser from "./Routes/GuestUser.js"
 import CashInOut from "./Routes/CashInOutRoute.js"
+import SupportRoute from "./Routes/SupportRoute.js"
 const app = express();
 //limiting the request storage
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -52,7 +53,7 @@ app.use("/api/:id/practise", PracticeMatch )
 app.use("/api/:id/room", RoomMatch)
 app.use("/api/:id/guestuser",GuestUser)
 app.use("/api/:id/cashinout",CashInOut)
-
+app.use("/api/:id/support",SupportRoute)
 
 
 

@@ -47,4 +47,25 @@ const {userId}=req.body
     } catch (error) {
         res.status(500).json(error)
     }
+} 
+
+
+export const checkMobile=async(req,res)=>{
+   
+    try {
+         const {mobile}=req.body
+
+         const data=UserModel.findOne({mobile:mobile})
+         if(data.mobile===mobile){
+            res.status(400).json("mobile already in use")
+         }else{
+            res.status(200).json("Number can be used")
+         }
+    } catch (error) {
+        
+    }
+
+
+
+
 }

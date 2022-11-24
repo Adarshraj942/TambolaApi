@@ -24,9 +24,9 @@ const roomWalletSchema = mongoose.Schema(
       }
     },
     
-    { timestamps: true }
+    { timestamps: true }                                      
   );
   
   const roomWalletModel = mongoose.model("roomWallet", roomWalletSchema);
   
-  export default roomWalletModel ;
+  export default roomWalletModel ;    
