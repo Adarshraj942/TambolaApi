@@ -76,9 +76,9 @@ try {
         }else{
             res.status(400).json("ticket limit exceeds")
         }
-    }else{
+    } else{
         res.status(400).json("User not found")
-    }
+    } 
     }else{
        res.status(400).json("Match not found")
     }
@@ -96,25 +96,25 @@ export const claim=async(req,res)=>{
 
     if(matchData.members.indexOf(userId)!==-1  ){
        if(claimType==="firstRow" && !matchData.firstRow){
-           const data=await PractiseModel.findByIdAndUpdate(matchId,{firstRow:userId})
+           const data=await PractiseModel.findByIdAndUpdate(matchId,{firstRow:userId},{new:true})
         return   res.status(200).json({data})
        }
       else if(claimType==="secondRow" && !matchData.secondRow){
-           const data=await PractiseModel.findByIdAndUpdate(matchId,{secondRow:userId})
+           const data=await PractiseModel.findByIdAndUpdate(matchId,{secondRow:userId},{new:true})
         return     res.status(200).json({data}) 
        }
        else if(claimType==="thirdRow" && !matchData.thirdRow){
-           const data=await PractiseModel.findByIdAndUpdate(matchId,{thirdRow:userId})
+           const data=await PractiseModel.findByIdAndUpdate(matchId,{thirdRow:userId},{new:true})
          return  res.status(200).json({data})
        }
        else if(claimType==="corner" && !matchData.corner){
-           const data=await PractiseModel.findByIdAndUpdate(matchId,{corner:userId})
+           const data=await PractiseModel.findByIdAndUpdate(matchId,{corner:userId},{new:true})
            console.log(data);
          return  res.status(200).json({data})
 
        }
        else if(claimType==="tambola" && !matchData.tambola){
-           const data=await PractiseModel.findByIdAndUpdate(matchId,{tambola:userId})
+           const data=await PractiseModel.findByIdAndUpdate(matchId,{tambola:userId},{new:true})
          return  res.status(200).json({data})
        }else{
          return  res.status(400).json("already claimed ") 
