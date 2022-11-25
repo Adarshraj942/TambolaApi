@@ -92,24 +92,24 @@ try {
           const userWallet=await userWalletModel.findOne({ownerId:userId})
           console.log("hello",userWallet);
        
-           if(userWallet.winningAmount<matchData.fee && userWallet.userAddedMoney<matchData.fee &&userWallet.defaultAmount>=matchData.fee ){
+           if(userWallet.winningAmount<matchData.fee && userWallet.userAddedAmount<matchData.fee &&userWallet.defaultAmount>=matchData.fee ){
             const x  = tambola.generateTickets(ticketCount) //This generates 100 tambola tickets
             await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{defaultAmount:-matchData.fee}},{new:true})
             const matchWallet=await roomWalletModel.findOne({roomId:matchId})
             await roomWalletModel.findByIdAndUpdate(matchWallet._id,{$inc:{walletAmount:matchData.fee}},{new:true})
             await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
             res.status(200).json({x})
-           }else  if(userWallet.winningAmount>=matchData.fee && userWallet.userAddedMoney<matchData.fee &&userWallet.defaultAmount<matchData.fee ){
+           }else  if(userWallet.winningAmount>=matchData.fee && userWallet.userAddedAmount<matchData.fee &&userWallet.defaultAmount<matchData.fee ){
             const x  = tambola.generateTickets(ticketCount) //This generates 100 tambola tickets
-            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{winningAmount:-matchData.fee}},{new:true})
+            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{ winningAmount:-matchData.fee}},{new:true})
             const matchWallet=await roomWalletModel.findOne({roomId:matchId})
             await roomWalletModel.findByIdAndUpdate(matchWallet._id,{$inc:{walletAmount:matchData.fee}},{new:true})
             await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
             res.status(200).json({x})
            }
-           else if(userWallet.winningAmount <matchData.fee && userWallet.userAddedMoney>=matchData.fee &&userWallet.defaultAmount<matchData.fee ){
+           else if(userWallet.winningAmount <matchData.fee && userWallet.userAddedAmount>=matchData.fee &&userWallet.defaultAmount<matchData.fee ){
             const x  = tambola.generateTickets(ticketCount) //This generates 100 tambola tickets
-            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{userAddedMoney:-matchData.fee}},{new:true})
+            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{userAddedAmountuserAddedMoney:-matchData.fee}},{new:true})
             const matchWallet=await roomWalletModel.findOne({roomId:matchId})
             await roomWalletModel.findByIdAndUpdate(matchWallet._id,{$inc:{walletAmount:matchData.fee}},{new:true})
             await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
