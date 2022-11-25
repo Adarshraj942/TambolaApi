@@ -5,6 +5,7 @@ const tambola =Tambola.default
 //create practice match
 export const creatematch=async(req,res)=>{
 try {
+  console.log("haoo");
     const {createrId,type}=req.body
     let newMatch=PractiseModel({createrId:createrId})
           newMatch.members.push(createrId)
