@@ -107,6 +107,9 @@ try {
             await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
             res.status(200).json({x})
            }
+
+
+           
            else if(userWallet.winningAmount <matchData.fee && userWallet.userAddedAmount>=matchData.fee &&userWallet.defaultAmount<matchData.fee ){
             const x  = tambola.generateTickets(ticketCount) //This generates 100 tambola tickets
             await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{userAddedAmountuserAddedMoney:-matchData.fee}},{new:true})
