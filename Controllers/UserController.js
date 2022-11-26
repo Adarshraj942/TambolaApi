@@ -71,9 +71,11 @@ export const checkMobile=async(req,res)=>{
 }
 export const findAcount=async(req,res)=>{
  try {
-    if(req.body.username){
-       const data=await UserModel.findOne({username:req.body.username})
-       if(data.username){
+
+  const {mobile}=req.body
+  
+       const data=await UserModel.findOne({mobile:mobile})
+       if(data){
         const token = jwt.sign(
             {
               username: data.username,
@@ -87,24 +89,7 @@ export const findAcount=async(req,res)=>{
         res.status(400).json("user not found")
        }
 
-    }else if(req.body.mobie){
-        
-            const data=await UserModel.findOne({mobile:req.body.mobile})
-            if(data.username){
-             const token = jwt.sign(
-                 {
-                   username: data.username,
-                   id: data._id,
-                 },
-                 process.env.JWT_KEY,
-                 { expiresIn: "1h" }
-               );
-               return res.status(200).json({ data, token });
-            }else{
-             res.status(400).json("user not found")
-            }
-
-    }
+    
  } catch (error) {
     res.status(500).json(error)
  }

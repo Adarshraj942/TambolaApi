@@ -11,5 +11,5 @@ export const registerSupport=async(req,res)=>{
     res.status(200).json(support)
    } catch (error) {
     res.status(500).json(error)
-   }
+   } 
 }
