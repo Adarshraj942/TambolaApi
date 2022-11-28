@@ -297,3 +297,25 @@ export const leaveMatch =async(req,res)=>{
     }
 } 
 
+export const startPrivatematch=async(req,res)=>{
+  console.log("haiiii") 
+try {
+    const {matchId}=req.body
+    const match =await RoomModel.findById(matchId)
+    
+
+       if(match.draw.length>0){
+          res.status(400).json("Game already started")
+        }else{
+          const draw=tambola.getDrawSequence() //Returns numbers 1-90 scrambled
+          const data = await RoomModel.findByIdAndUpdate(matchId,{$set:{draw:draw}},{new:true})
+          console.log(data)
+             res.status(200).json({data})
+        }
+       
+       
+    
+} catch (error) {
+    res.status(500).json(error)
+}
+}
