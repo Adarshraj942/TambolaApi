@@ -112,7 +112,7 @@ try {
            
            else if( userWallet.userAddedAmount>=matchData.fee){
             const x  = tambola.generateTickets(ticketCount) //This generates 100 tambola tickets
-            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{userAddedAmountuserAddedMoney:-matchData.fee}},{new:true})
+            await userWalletModel.findByIdAndUpdate(userWallet._id,{$inc:{userAddedAmount:-matchData.fee}},{new:true})
             const matchWallet=await roomWalletModel.findOne({roomId:matchId})
             await roomWalletModel.findByIdAndUpdate(matchWallet._id,{$inc:{walletAmount:matchData.fee}},{new:true})
             await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
@@ -309,7 +309,7 @@ try {
         }else{
           const draw=tambola.getDrawSequence() //Returns numbers 1-90 scrambled
           const data = await RoomModel.findByIdAndUpdate(matchId,{$set:{draw:draw}},{new:true})
-          console.log(data)
+          console.log(data) 
              res.status(200).json({data})
         }
        
