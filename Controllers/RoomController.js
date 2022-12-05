@@ -117,7 +117,7 @@ try {
             await roomWalletModel.findByIdAndUpdate(matchWallet._id,{$inc:{walletAmount:matchData.fee}},{new:true})
             await RoomModel.findByIdAndUpdate(matchData._id,{$inc:{ ticketBuyerCount:1}},{new:true})
             res.status(200).json({x})
-           }else{
+           }else{   
             res.status(400).json("Insufficent Wallet amount")
           }
            

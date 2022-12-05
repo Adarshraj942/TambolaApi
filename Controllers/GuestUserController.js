@@ -1,11 +1,12 @@
 import GuestUserModel from "../Model/guestUserModel.js";
 import UserModel from "../Model/userModel.js";
-
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 export const createGuestUser=async(req,res)=>{
   // const { username } = req.body;
    
    const newUser = GuestUserModel(req.body);
-  
+   
    try {
     const {username}=req.body
     const oldUser = await GuestUserModel.findOne({ username });
