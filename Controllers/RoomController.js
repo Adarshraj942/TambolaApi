@@ -272,7 +272,7 @@ export const winners = async(req,res)=>{
   } catch (error) {
     res.status(500).json(error)
   }
-}     
+}         
 
 export const getMemberCount=async(req,res)=>{
   try {
@@ -284,7 +284,7 @@ export const getMemberCount=async(req,res)=>{
     res.status(500).json(error)
   }
 }
-
+  
 export const leaveMatch =async(req,res)=>{
  
     try {
@@ -318,4 +318,19 @@ try {
 } catch (error) {
     res.status(500).json(error)
 }
+}
+
+
+
+export const leaderboard = async (req,res)=>{
+  try {
+     const data= await RoomModel.aggregate([
+       {$group:{"_id":"$tambola" ,count:{$sum:1}}}
+     ])
+
+     console.log(data)
+     res.status(200).json(data)
+  } catch (error) {
+   res.status(500).json(error)
+  }
 }

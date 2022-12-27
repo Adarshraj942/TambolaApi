@@ -1,5 +1,5 @@
 import express from "express";
-import { allMatch, claim, creatematch, getMemberCount, getTickets, joinmatch, leaveMatch, removeMatch, startmatch, startPrivatematch, winners } from "../Controllers/RoomController.js";
+import { allMatch, claim, creatematch, getMemberCount, getTickets, joinmatch, leaderboard, leaveMatch, removeMatch, startmatch, startPrivatematch, winners } from "../Controllers/RoomController.js";
 const router = express.Router();
 
 router.post("/creatematch",creatematch)
@@ -13,5 +13,6 @@ router.get("/allmatch",allMatch)
 router.post("/winner",winners)
 router.post("/getMemberCount",getMemberCount)
 router.post("/leave",leaveMatch)
+router.post("/leaderboard",leaderboard)
 export default router; 
 

@@ -1,5 +1,5 @@
 import GuestUserModel from "../Model/guestUserModel.js";
-import UserModel from "../Model/userModel.js";
+import UserModel from "../Model/userModel.js";  
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 export const createGuestUser=async(req,res)=>{
@@ -37,7 +37,7 @@ export const changeGuestAccount= async (req,res)=>{
       if (req.body.authType === "Local") {
         const { username } = req.body;
         const { authTtype, ...others } = req.body;
-        const newUser = UserModel(others);
+        const newUser =  UserModel(others);
          
         if (username) {
           const oldUser = await UserModel.findOne({ username });
@@ -78,7 +78,7 @@ export const changeGuestAccount= async (req,res)=>{
             {
               username: user.mobile,
               id: user._id,
-            },
+            },  
             process.env.JWT_KEY,
             { expiresIn: "1h" }
           );
@@ -99,7 +99,7 @@ export const changeGuestAccount= async (req,res)=>{
           const wallet=userWalletModel({
             ownerId:user._id,
             defaultAmount:10,
-            userAddedAmount:0,
+            userAddedAmount:0,  
             winningAmount:0,
             totalUsableAmount:0
           
