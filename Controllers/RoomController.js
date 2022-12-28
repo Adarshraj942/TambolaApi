@@ -333,7 +333,7 @@ export const leaderboard = async (req,res)=>{
      ])
 
      console.log(data)
-     res.status(200).json(data)
+     res.status(200).json(data.slice(0,5))
   } catch (error) {
    res.status(500).json(error)
   }
