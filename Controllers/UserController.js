@@ -97,3 +97,27 @@ export const findAcount=async(req,res)=>{
 
 
 
+export const getuser=async(req,res)=>{
+    try {
+        const {userId}=req.body
+        const data= await UserModel.findById(userId)
+        res.status(200).json(data.username)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+
+export const totalmatchandwinning=async(req,res)=>{
+    try {
+        const {userId}=req.body
+        const data= await UserModel.findById(userId)
+        let matchData={
+            totalmatch:data.totalMatches ,
+            totalwinning:data.totalWinnings
+        }
+        res.status(200).json(matchData)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
