@@ -2,6 +2,7 @@ import GuestUserModel from "../Model/guestUserModel.js";
 import UserModel from "../Model/userModel.js";  
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import userWalletModel from "../Model/userWalletModel.js";
 export const createGuestUser=async(req,res)=>{
   // const { username } = req.body;
    
