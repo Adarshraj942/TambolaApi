@@ -47,7 +47,7 @@ export const changeGuestAccount= async (req,res)=>{
           const user = await newUser.save();
           const wallet=userWalletModel({ownerId:user._id})
           await wallet.save()
-          const token = jwt.sign(
+          const token  = jwt.sign(
             {
               username: user.username,
               id: user._id,

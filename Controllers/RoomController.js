@@ -3,6 +3,7 @@ import Tambola from "tambola-generator";
 const tambola =Tambola.default
 import roomWalletModel from "../Model/roomWalletModel.js";
 import userWalletModel from "../Model/userWalletModel.js";
+import UserModel from "../Model/userModel.js";
 import { AllOtherGames, RoomOfFive, RoomOfLessthanFive, RoomOfTen } from "../Helpers/winningFormulas.js";
 
 //create practice match
@@ -22,6 +23,7 @@ try {
         })
         await wallet.save()
         console.log("wallet created");
+         await UserModel.findByIdAndUpdate(createrId,{$inc:{totalMatches:1}},{new:true})
         res.status(200).json({match}) 
 } catch (error) {
     res.status(500).json(error)
@@ -41,6 +43,7 @@ export const joinmatch=async(req,res)=>{
       res.status(400).json("Room is full")
     }else{
       const match =await RoomModel.findByIdAndUpdate(matchId,{ $addToSet:{members:userId}},{new:true})
+      await UserModel.findByIdAndUpdate(userId,{$inc:{totalMatches:1}},{new:true})
       res.status(200).json({match})
     }
      
@@ -171,14 +174,14 @@ export const claim=async(req,res)=>{
                
      await userWalletModel.findOneAndUpdate ({ownerId:userId},{$inc:{winningAmount:firstRowWin}},{new:true})
      await roomWalletModel.findOneAndUpdate ({roomId:matchData._id},{$inc:{walletAmount:-firstRowWin}},{new:true})
-        
+     await UserModel.findByIdAndUpdate(userId,{$inc:{totalWinnings:1}},{new:true})   
          return   res.status(200).json("First row claimed")
        }
       else if(claimType==="secondRow" && !matchData.secondRow){
            const data=await RoomModel.findByIdAndUpdate(matchId,{secondRow:userId},{new:true})
            await userWalletModel.findOneAndUpdate ({ownerId:userId},{$inc:{winningAmount:secondRowWin}},{new:true})
            await roomWalletModel.findOneAndUpdate ({roomId:matchData._id},{$inc:{walletAmount:-secondRowWin}},{new:true})
-        
+           await UserModel.findByIdAndUpdate(userId,{$inc:{totalWinnings:1}},{new:true})   
            return     res.status(200).json("Second row claimed")
        }
        else if(claimType==="thirdRow" && !matchData.thirdRow){
@@ -186,7 +189,7 @@ export const claim=async(req,res)=>{
               
      await userWalletModel.findOneAndUpdate ({ownerId:userId},{$inc:{winningAmount:thirdRowWin}},{new:true})
      await roomWalletModel.findOneAndUpdate ({roomId:matchData._id},{$inc:{walletAmount:-thirdRowWin}},{new:true})
-        
+     await UserModel.findByIdAndUpdate(userId,{$inc:{totalWinnings:1}},{new:true})   
            return  res.status(200).json("Third row claimed")
        }
        else if(claimType==="corner" && !matchData.corner){
@@ -197,7 +200,8 @@ export const claim=async(req,res)=>{
            await roomWalletModel.findOneAndUpdate ({roomId:matchData._id},{$inc:{walletAmount:-cornerWin}},{new:true})
      
            await userWalletModel.findOneAndUpdate ({ownerId:userId},{$inc:{winningAmount:cornerWin}},{new:true})
-         return  res.status(200).json("Corner claimed")
+           await UserModel.findByIdAndUpdate(userId,{$inc:{totalWinnings:1}},{new:true})   
+           return  res.status(200).json("Corner claimed")
 
        }
        else if(claimType==="tambola" && !matchData.tambola){
@@ -205,7 +209,7 @@ export const claim=async(req,res)=>{
            await roomWalletModel.findOneAndUpdate ({roomId:matchData._id},{$inc:{walletAmount:-TambolaWin}},{new:true})
      
            await userWalletModel.findOneAndUpdate ({ownerId:userId},{$inc:{winningAmount:TambolaWin}},{new:true})
-         
+           await UserModel.findByIdAndUpdate(userId,{$inc:{totalWinnings:1}},{new:true})   
            return  res.status(200).json("Tambola claimed")
        }else{
          return  res.status(400).json("already claimed ") 

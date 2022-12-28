@@ -37,14 +37,16 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    matchDetials: {
-      type: String,
+    totalWinnings: {
+      type: Number,
+      default:0
     },
     kyc: {
       type: String,
     },
-    leaderBoardScore: {
+    totalMatches: {
       type: Number,
+      default:0
     },
     language: {
       type: String,

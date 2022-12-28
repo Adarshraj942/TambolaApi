@@ -94,3 +94,6 @@ export const findAcount=async(req,res)=>{
     res.status(500).json(error)
  }
 }
+
+
+

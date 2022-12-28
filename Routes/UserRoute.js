@@ -6,4 +6,5 @@ router.put("/:id", authMiddleWare, updateUser)
 router.post("/getUserWallet",getUserWallet)
 router.post("/checkmobile", checkMobile)
 router.post("/findacccount", findAcount)
-export default router;
+
+export default router; 
