@@ -5,6 +5,7 @@ import roomWalletModel from "../Model/roomWalletModel.js";
 import userWalletModel from "../Model/userWalletModel.js";
 import UserModel from "../Model/userModel.js";
 import { AllOtherGames, RoomOfFive, RoomOfLessthanFive, RoomOfTen } from "../Helpers/winningFormulas.js";
+import { json } from "express";
 
 //create practice match
 export const creatematch=async(req,res)=>{
@@ -277,7 +278,7 @@ export const winners = async(req,res)=>{
     res.status(500).json(error)
   }
 }         
-
+  
 export const getMemberCount=async(req,res)=>{
   try {
     const {matchId}=req.body
@@ -328,13 +329,32 @@ try {
 
 export const leaderboard = async (req,res)=>{
   try {
-     const data= await RoomModel.aggregate([
-       {$group:{"_id":"$tambola" ,count:{$sum:1}}}
-     ])
+    console.log(new Date( Date.now() - 7 * 24 * 60 * 60 * 1000));
+    const data= await RoomModel.find({createdAt:{'$lte':new Date(),'$gte':new Date( Date.now() - 7 * 24 * 60 * 60 * 1000)}})
+    const beta=await RoomModel.find({createdAt:{'$lte':new Date(),'$gte':new Date( Date.now() - 28 * 24 * 60 * 60 * 1000)}})
+    var rez={};
+data.forEach(function(item){
+  rez[item.tambola] ? rez[item.tambola]++ :  rez[item.tambola] = 1;
+});
 
-     console.log(data)
-     res.status(200).json(data.slice(0,5))
+var sez={};
+beta.forEach(function(item){
+  sez[item.tambola] ? sez[item.tambola]++ :  sez[item.tambola] = 1;
+});
+
+var {undefined,...otherrez}=rez
+var {undefined,...othersez}=sez
+
+const teta={
+  weekly:otherrez,
+  monthly:othersez
+}
+
+
+res.status(200).json(teta)
+     
   } catch (error) {
    res.status(500).json(error)
   }
 }
+  
